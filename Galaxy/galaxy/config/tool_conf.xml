@@ -1,0 +1,5 @@
+<section id="radiuma" name="Radiuma Tools">
+  <tool file="radiuma/radiomics.xml"/>
+  <tool file="radiuma/preprocessing.xml"/>
+  <tool file="radiuma/classification.xml"/>
+</section>

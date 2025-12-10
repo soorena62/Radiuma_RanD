@@ -1,0 +1,13 @@
+<tool id="radiuma_preprocessing" name="Preprocessing" version="1.0.0">
+  <command>python3 $__tool_directory__/preprocessing.py --input $input --method $method --output $output</command>
+  <inputs>
+    <param name="input" type="data" format="csv" label="Input Features"/>
+    <param name="method" type="select" label="Method">
+      <option value="resample">Resample</option>
+      <option value="shuffle">Shuffle</option>
+    </param>
+  </inputs>
+  <outputs>
+    <data name="output" format="csv" label="Processed Features"/>
+  </outputs>
+</tool>

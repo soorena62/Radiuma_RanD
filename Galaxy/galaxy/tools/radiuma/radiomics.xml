@@ -1,0 +1,25 @@
+<tool id="radiuma_radiomics" name="Radiomics Feature Extractor" version="1.0.0">
+  <description>Extract IBSI-compliant radiomics features using PySERA</description>
+  <command>
+    python3 $__tool_directory__/run_radiomics.py
+    --image $image
+    --mask $mask
+    --output $output.extra_files_path
+    --categories "$categories"
+    --dimensions "$dimensions"
+    --apply_preprocessing "$apply_preprocessing"
+  </command>
+  <inputs>
+    <param name="image" type="data" format="nii" label="Input Image"/>
+    <param name="mask" type="data" format="nii" label="Segmentation Mask"/>
+    <param name="categories" type="text" value="glcm, glrlm" label="Feature Categories"/>
+    <param name="dimensions" type="text" value="1st, 2_5d, 3d" label="Spatial Dimensions"/>
+    <param name="apply_preprocessing" type="boolean" truevalue="True" falsevalue="False" checked="true" label="Apply Preprocessing"/>
+  </inputs>
+  <outputs>
+    <data name="output" format="csv" label="Extracted Radiomics Features" from_work_dir="radiomics_features.csv"/>
+  </outputs>
+  <help>
+    This tool extracts handcrafted radiomics features from medical images using the PySERA library.
+  </help>
+</tool>

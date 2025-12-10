@@ -1,0 +1,24 @@
+<tool id="pysera_radiomics" name="PySERA Radiomics Extraction" version="2.1.2">
+    <description>Standardized radiomics feature extraction using PySERA</description>
+
+    <command><![CDATA[
+        python3 -m pysera \
+            --image-input "$image_input" \
+            --mask-input "$mask_input" \
+            --output "$output"
+    ]]></command>
+
+    <inputs>
+        <param name="image_input" type="data" label="Medical Image (NIfTI/DICOM)" />
+        <param name="mask_input" type="data" label="Segmentation Mask" />
+    </inputs>
+
+    <outputs>
+        <data name="output" format="csv" label="Extracted Radiomics Features" />
+    </outputs>
+
+    <help><![CDATA[
+        This tool uses PySERA (Python Standardized Extraction for Radiomics Analysis)
+        for IBSI-compliant radiomics feature extraction.
+    ]]></help>
+</tool>

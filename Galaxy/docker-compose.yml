@@ -1,0 +1,48 @@
+version: "3.9"
+
+services:
+  galaxy:
+    image: quay.io/bgruening/galaxy:24.2
+    container_name: galaxy_radiuma
+    ports:
+      - "8080:80"  # رابط وب Galaxy
+    environment:
+      - GALAXY_CONFIG_BRAND=Radiuma Galaxy
+      - GALAXY_CONFIG_ADMIN_USERS=admin@radiuma.org
+      - GALAXY_CONFIG_REQUIREMENTS_FILE=/galaxy/config/requirements.txt
+      - GALAXY_CONFIG_BOOTSTRAP_ADMIN_API_KEY=radiuma_admin_key  # ✅ جایگزین master_api_key
+      - GALAXY_CONFIG_ENABLE_FTP_UPLOAD_DIR=True
+      - GALAXY_CONFIG_FTP_UPLOAD_DIR=/ftp_uploads  # ✅ مسیر داخلی FTP
+      - GALAXY_CONFIG_TOOL_CONFIG_FILE=/galaxy/config/tool_conf.xml
+      - GALAXY_CONFIG_LOG_LEVEL=DEBUG
+      - GALAXY_CONFIG_WATCH_TOOLS=False
+      - GALAXY_CONFIG_DATABASE_CONNECTION=postgresql://galaxy:galaxy@postgres:5432/galaxy
+    volumes:
+      - galaxy_data:/galaxy/database
+      - ./galaxy/tools:/galaxy/tools
+      - ./requirements.txt:/galaxy/config/requirements.txt
+      - ./galaxy/config/tool_conf.xml:/galaxy/config/tool_conf.xml
+      - ./ftp:/ftp_uploads  # ✅ mount صحیح برای FTP
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:15
+    container_name: galaxy_postgres
+    environment:
+      POSTGRES_USER: galaxy
+      POSTGRES_PASSWORD: galaxy
+      POSTGRES_DB: galaxy
+    volumes:
+      - ./galaxy_db:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "galaxy", "-h", "postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  galaxy_data:

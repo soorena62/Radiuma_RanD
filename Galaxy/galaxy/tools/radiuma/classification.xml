@@ -1,0 +1,6 @@
+<param name="algorithm" type="select" label="Classifier">
+  <option value="LogisticRegression">Logistic Regression</option>
+  <option value="KNeighborsClassifier">KNN</option>
+  <option value="AdaBoostClassifier">AdaBoost</option>
+  <option value="BaggingClassifier">Bagging</option>
+</param>
