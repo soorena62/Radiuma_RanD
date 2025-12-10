@@ -1,0 +1,30 @@
+{
+  "steps": {
+    "image_reader": {
+      "status": "success",
+      "outputs": {
+        "image_path": "app\\storage\\artifacts\\image_reader.nii.gz"
+      }
+    },
+    "image_registration": {
+      "status": "success",
+      "outputs": {
+        "registered_path": "app\\storage\\artifacts\\registered.nii.gz",
+        "transform": "euler3d"
+      }
+    },
+    "image_filter": {
+      "status": "success",
+      "outputs": {
+        "filtered_path": "app\\storage\\artifacts\\filtered.nii.gz"
+      }
+    },
+    "image_writer": {
+      "status": "success",
+      "outputs": {
+        "final_output_path": "app\\storage\\artifacts\\final_output.nii.gz"
+      }
+    }
+  },
+  "cancelled": true
+}

@@ -1,0 +1,28 @@
+radiomics_batch_job:
+  ops:
+    enumerate_cases_auto:
+      config:
+        images_dir: "C:/Users/Omen16/Documents/Radiuma_Mini/data/images"
+        masks_dir: "C:/Users/Omen16/Documents/Radiuma_Mini/data/masks"
+        image_exts: [".nii.gz"]
+        mask_exts: [".nii.gz"]
+        mask_suffixes: ["_mask.nii.gz"]
+        allow_fuzzy_match: true
+        fuzzy_max_distance: 5
+        verbose: true
+
+radiomics_job:
+  ops:
+    read_image_and_mask:
+      config:
+        image_path: "C:/Users/Omen16/Documents/Radiuma_Mini/data/images/CT_AVM.nii.gz"
+        mask_path: "C:/Users/Omen16/Documents/Radiuma_Mini/data/masks/CT_AVM_mask.nii.gz"
+    filter_image:
+      config:
+        sigma: 2.0
+    extract_features:
+      config: {}
+    write_outputs:
+      config:
+        image_out: "dagster_out_single.nii.gz"
+        features_out: "dagster_feats_single.csv"
