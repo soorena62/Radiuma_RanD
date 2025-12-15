@@ -1,23 +1,14 @@
-import time
 import luigi
+import time
 from engine.pipeline import RadiumaPipeline
 
 if __name__ == "__main__":
     start = time.time()
-
-    luigi.build([
-        RadiumaPipeline(
-            image_path="data/images/64T1.nii.gz",
-            roi_path="data/masks/64T1_mask.nii.gz",
-            dimensions="3d",
-            workspace="artifacts",
-            tool_version="0.1.0"
-        )
-    ], local_scheduler=True, detailed_summary=True)
-
-    end = time.time()
-    duration = end - start
-    print(f"[Total] Workflow finished in {duration:.2f} seconds")
-
-    with open("artifacts/pipeline/final_report.txt", "a", encoding="utf-8") as f:
-        f.write(f"\nTotal execution time: {duration:.2f} seconds\n")
+    luigi.build([RadiumaPipeline(artifacts_dir="artifacts")], local_scheduler=True)
+    elapsed = time.time() - start
+    hours, rem = divmod(elapsed, 3600)
+    minutes, seconds = divmod(rem, 60)
+    centiseconds = int((seconds - int(seconds)) * 100)
+    print(f"[Pipeline] total execution time: {int(hours):02}:{int(minutes):02}:{int(seconds):02}.{centiseconds:02}")
+    print("=== Workflow completed successfully ===")
+    

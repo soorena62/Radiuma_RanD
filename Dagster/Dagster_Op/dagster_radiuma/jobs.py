@@ -9,13 +9,13 @@ from .ops import (
     enumerate_cases_auto
 )
 
-# استخراج نام فایل تصویر از config برای حالت تک‌فایلی
+# Extract image file name from config for single file mode
 @op(config_schema={"image_path": str})
 def get_case_name_from_config(context) -> str:
     image_path = context.op_config["image_path"]
     return Path(image_path).stem
 
-# استخراج case_name از دیکشنری case برای حالت batch
+# Extract case_name from case dictionary for batch mode
 @op
 def get_case_name_from_case(context, case: dict) -> str:
     return case["case_name"]

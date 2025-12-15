@@ -1,20 +1,19 @@
 import luigi
-from engine.tasks_writer import WriterTask
+import time
+from engine.tasks_writer import ImageWriter
 
-class RadiumaPipeline(luigi.Task):
-    image_path = luigi.Parameter()
-    roi_path   = luigi.Parameter(default="")
-    dimensions = luigi.Parameter(default="3d")
-    workspace  = luigi.Parameter(default="artifacts")
-    tool_version = luigi.Parameter(default="0.1.0")
+class RadiumaPipeline(luigi.WrapperTask):
+    artifacts_dir = luigi.Parameter(default="artifacts")
 
     def requires(self):
-        return WriterTask(image_path=self.image_path, roi_path=self.roi_path,
-                          dimensions=self.dimensions, workspace=self.workspace,
-                          tool_version=self.tool_version)
-
-    def output(self):
-        return self.input()  # The output of WriterTask is the same as the output of Pipeline
+        # start timer at the very beginning
+        self.start_time = time.time()
+        return ImageWriter(artifacts_dir=self.artifacts_dir)
 
     def run(self):
-        pass
+        elapsed = time.time() - self.start_time
+        hours, rem = divmod(elapsed, 3600)
+        minutes, seconds = divmod(rem, 60)
+        centiseconds = int((seconds - int(seconds)) * 100)
+        print(f"[Pipeline] total execution time: {int(hours):02}:{int(minutes):02}:{int(seconds):02}.{centiseconds:02}")
+        print("=== Workflow completed successfully ===")

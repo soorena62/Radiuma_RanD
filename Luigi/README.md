@@ -1,4 +1,4 @@
-# Luigi R&D
+# Readme For ***Radiuma_Luigi***
 
 This section contains research and development (R&D) projects related to the **Luigi** tool.
 Luigi is a lightweight and simple workflow engine for building data and scientific pipelines that focuses on reproducibility and dependency management.
@@ -19,3 +19,4 @@ Luigi is a lightweight and simple workflow engine for building data and scientif
 1. Install Luigi:
 ```bash
 pip install luigi
+python run_pipeline.py RadiumaPipeline --local-scheduler

@@ -4,10 +4,9 @@ import pandas as pd
 from pathlib import Path
 import SimpleITK as sitk
 from dagster import op, In, Out, DynamicOut, DynamicOutput
-# ------------------------------------------------------------
-# Utility functions
-# ------------------------------------------------------------
 
+
+# Utility functions
 def remove_ext(filename: str, exts):
     fname = filename
     for ext in exts:
@@ -42,9 +41,7 @@ def list_files(root: Path, exts):
             files.append(p)
     return sorted(files)
 
-# ------------------------------------------------------------
 # Single-case readers
-# ------------------------------------------------------------
 
 @op(
     config_schema={
@@ -91,9 +88,8 @@ def read_image_and_mask_from_case(context, case: dict):
     context.log.info(f"[case] image:{img_arr.shape} mask:{msk_arr.shape}")
     return img_arr, msk_arr
 
-# ------------------------------------------------------------
+
 # Preprocess, features, writer
-# ------------------------------------------------------------
 
 @op(out=Out())
 def filter_image(context, image: np.ndarray):
@@ -138,9 +134,8 @@ def write_outputs(context, features: dict, case_name: str):
 
     return str(csv_path)
 
-# ------------------------------------------------------------
+
 # Batch case discovery
-# ------------------------------------------------------------
 
 @op(
     config_schema={
